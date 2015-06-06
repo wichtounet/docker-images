@@ -4,8 +4,6 @@ set -e
 PG_HOME="/var/lib/postgresql"
 PG_DATA="${PG_HOME}/9.4"
 
-chown -R postgres:postgres ${PG_HOME}
-
 if [ -n "${DB_USER}" ]; then
   if [ -z "${DB_PASS}" ]; then
     echo ""
