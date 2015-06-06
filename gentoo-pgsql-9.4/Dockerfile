@@ -6,10 +6,6 @@ MAINTAINER Baptiste Wicht
 RUN emerge "=dev-db/postgresql-9.4.3"
 RUN yes | emerge --config "=dev-db/postgresql-9.4.3"
 
-# Add the run-script
-ADD pgsql-run /pgsql-run
-RUN chmod 755 /pgsql-run
-
 # Allow remote connections
 RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql-9.4/pg_hba.conf
 RUN echo "listen_addresses='*'" >> /etc/postgresql-9.4/postgresql.conf
@@ -22,6 +18,10 @@ RUN emerge app-admin/sudo
 
 # Save some space
 RUN rm -rf /usr/portage/distfiles/*
+
+# Add the run-script
+ADD pgsql-run /pgsql-run
+RUN chmod 755 /pgsql-run
 
 # Run postgres directly
 CMD /pgsql-run
