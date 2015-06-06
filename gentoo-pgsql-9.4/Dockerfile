@@ -2,8 +2,9 @@ FROM gentoo-hardened
 
 MAINTAINER Baptiste Wicht
 
-# Install PostgreSQL 9.4.2
+# Install and configure PostgreSQL 9.4.2
 RUN emerge "=dev-db/postgresql-9.4.3"
+RUN emerge --config "=dev-db/postgresql-9.4.3"
 
 # Run as postgres
 USER postgres
