@@ -17,5 +17,8 @@ RUN echo "listen_addresses='*'" >> /etc/postgresql-9.4/postgresql.conf
 # Expose the PostgreSQL port
 EXPOSE 5432
 
+# Install sudo (for the run script)
+RUN emerge app-admin/sudo
+
 # Run postgres directly
 CMD /pgsql-run
