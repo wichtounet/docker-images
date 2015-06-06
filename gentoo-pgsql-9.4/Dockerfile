@@ -10,9 +10,6 @@ RUN echo "y" | emerge --config "=dev-db/postgresql-9.4.3"
 ADD pgsql-run /pgsql-run
 RUN chmod 755 /pgsql-run
 
-# Run as postgres
-USER postgres
-
 # Allow remote connections
 RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql-9.4/pg_hba.conf
 RUN echo "listen_addresses='*'" >> /etc/postgresql-9.4/postgresql.conf

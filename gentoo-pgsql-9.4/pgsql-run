@@ -1,8 +1,6 @@
 #!/bin/bash
 set -e
 
-/etc/init.d/postgresql-9.4 start
-
 if [ -n "${DB_USER}" ]; then
   if [ -z "${DB_PASS}" ]; then
     echo ""
@@ -13,22 +11,22 @@ if [ -n "${DB_USER}" ]; then
   else
     echo "Creating user \"${DB_USER}\"..."
     echo "CREATE ROLE ${DB_USER} with LOGIN CREATEDB PASSWORD '${DB_PASS}';" |
-      /usr/lib/postgresql/9.4/bin/postgres --single -D /var/lib/postgresql/9.4 -c config_file=/etc/postgresql/9.4/postgresql.conf >/dev/null
+      sudo -u postgres /usr/lib/postgresql/9.4/bin/postgres --single -D /var/lib/postgresql/9.4 -c config_file=/etc/postgresql/9.4/postgresql.conf >/dev/null
   fi
 fi
 
 if [ -n "${DB_NAME}" ]; then
     echo "Creating database \"${DB_NAME}\"..."
     echo "CREATE DATABASE ${DB_NAME};" | \
-      /usr/lib/postgresql/9.4/bin/postgres --single -D /var/lib/postgresql/9.4 -c config_file=/etc/postgresql/9.4/postgresql.conf >/dev/null
+      sudo -u postgres /usr/lib/postgresql/9.4/bin/postgres --single -D /var/lib/postgresql/9.4 -c config_file=/etc/postgresql/9.4/postgresql.conf >/dev/null
 
     if [ -n "${DB_USER}" ]; then
       echo "Granting access to database \"${DB_NAME}\" for user \"${DB_USER}\"..."
       echo "GRANT ALL PRIVILEGES ON DATABASE ${DB_NAME} to ${DB_USER};" |
-        /usr/lib/postgresql/9.4/bin/postgres --single -D /var/lib/postgresql/9.4 -c config_file=/etc/postgresql/9.4/postgresql.conf >/dev/null
+        sudo -u postgres /usr/lib/postgresql/9.4/bin/postgres --single -D /var/lib/postgresql/9.4 -c config_file=/etc/postgresql/9.4/postgresql.conf >/dev/null
     fi
 fi
 
 
 echo "Starting the server..."
-/usr/lib/postgresql/9.4/bin/postgres -D /var/lib/postgresql/9.4 -c config_file=/etc/postgresql/9.4/postgresql.conf
+exec sudo -u postgres /usr/lib/postgresql/9.4/bin/postgres -D /var/lib/postgresql/9.4 -c config_file=/etc/postgresql/9.4/postgresql.conf
