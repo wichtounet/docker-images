@@ -4,7 +4,7 @@ MAINTAINER Baptiste Wicht
 
 # Install and configure PostgreSQL 9.4.2
 RUN emerge "=dev-db/postgresql-9.4.3"
-RUN echo "y" | emerge --config "=dev-db/postgresql-9.4.3"
+RUN yes | emerge --config "=dev-db/postgresql-9.4.3"
 
 # Add the run-script
 ADD pgsql-run /pgsql-run
