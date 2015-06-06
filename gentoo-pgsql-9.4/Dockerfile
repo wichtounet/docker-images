@@ -20,5 +20,8 @@ EXPOSE 5432
 # Install sudo (for the run script)
 RUN emerge app-admin/sudo
 
+# Save some space
+RUN rm -rf /usr/portage/distfiles/*
+
 # Run postgres directly
 CMD /pgsql-run
