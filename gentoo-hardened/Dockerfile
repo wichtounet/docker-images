@@ -2,9 +2,8 @@ FROM scratch
 
 MAINTAINER Baptiste Wicht
 
-# Download a stage3 tarball
-ADD http://distfiles.gentoo.org/releases/amd64/autobuilds/current-stage3-amd64-hardened+nomultilib/stage3-amd64-hardened-20150604.tar.bz2 /
-#ADD stage3-amd64-hardened.tar.xz /
+# Unpack stage3
+ADD stage3-amd64-hardened.tar.bz2 /
 
 # Set the runlevel
 RUN echo "default" > /run/openrc/softlevel
