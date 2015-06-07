@@ -25,4 +25,4 @@ RUN chmod 755 /pgsql-run
 EXPOSE 5432
 
 # Run postgres directly
-CMD /pgsql-run
+CMD ["/pgsql-run"]
