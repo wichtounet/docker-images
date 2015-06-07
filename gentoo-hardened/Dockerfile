@@ -19,6 +19,9 @@ RUN ln -s /etc/init.d/net.eth0 /run/openrc/started/net.eth0
 # By default, UTC system
 RUN echo 'Europe/Zurich' > /etc/timezone
 
+# Install sudo
+RUN emerge app-admin/sudo
+
 # Setup the portage directory and permissions
 ONBUILD RUN mkdir -p /usr/portage/{distfiles,metadata,packages}
 ONBUILD RUN chown -R portage:portage /usr/portage

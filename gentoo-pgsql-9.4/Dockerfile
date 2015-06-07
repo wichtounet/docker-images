@@ -17,9 +17,6 @@ RUN chmod -R 700 /var/lib/postgresql/
 # Expose the PostgreSQL port
 EXPOSE 5432
 
-# Install sudo (for the run script)
-RUN emerge app-admin/sudo
-
 # Save some space
 RUN rm -rf /usr/portage/distfiles/*
 
