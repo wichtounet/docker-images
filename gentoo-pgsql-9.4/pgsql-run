@@ -20,7 +20,7 @@ chown -R postgres:postgres /run/postgresql
 chmod g+s /run/postgresql
 
 # Initialize database directory if necessary
-if [ ! -d ${PG_DATA} ]; then
+if [ ! -f ${PG_DATA}/PG_VERSION ]; then
   echo "Initializing database..."
   sudo -u postgres ${PG_BINDIR}/initdb --pgdata="${PG_DATA}" --username=postgres --encoding=unicode --auth=trust >/dev/null
 fi
