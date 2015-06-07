@@ -15,7 +15,7 @@ RUN chown -R postgres:postgres /var/lib/postgresql/
 RUN chmod -R 700 /var/lib/postgresql/
 
 # Fix permissions of config directory
-RUN chown -R postgres:postgres /etc/postgresql/
+RUN chown -R postgres:postgres /etc/postgresql-9.4/
 
 # Fix permissions of run directory
 RUN mkdir -p -m 0755 /run/postgresql /run/postgresql/
