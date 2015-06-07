@@ -23,9 +23,9 @@ RUN echo 'Europe/Zurich' > /etc/timezone
 RUN emerge app-admin/sudo
 
 # Setup the portage directory and permissions
-ONBUILD RUN mkdir -p /usr/portage/{distfiles,metadata,packages}
-ONBUILD RUN chown -R portage:portage /usr/portage
-ONBUILD RUN echo "masters = gentoo" > /usr/portage/metadata/layout.conf
+RUN mkdir -p /usr/portage/{distfiles,metadata,packages}
+RUN chown -R portage:portage /usr/portage
+RUN echo "masters = gentoo" > /usr/portage/metadata/layout.conf
 
 # Sync portage
 ONBUILD RUN emerge-webrsync -q
