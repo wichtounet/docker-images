@@ -11,7 +11,7 @@ RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql-9.4/pg_hba.conf
 RUN echo "listen_addresses='*'" >> /etc/postgresql-9.4/postgresql.conf
 
 # Fix permissions
-RUN chown postgres:postgres /var/lib/postgresql/
+RUN chown -R postgres:postgres /var/lib/postgresql/
 RUN chmod -R 700 /var/lib/postgresql/
 
 # Expose the PostgreSQL port
