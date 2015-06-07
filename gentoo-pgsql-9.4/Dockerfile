@@ -10,9 +10,17 @@ RUN yes | emerge --config "=dev-db/postgresql-9.4.3"
 RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql-9.4/pg_hba.conf
 RUN echo "listen_addresses='*'" >> /etc/postgresql-9.4/postgresql.conf
 
-# Fix permissions
+# Fix permissions of data directory
 RUN chown -R postgres:postgres /var/lib/postgresql/
 RUN chmod -R 700 /var/lib/postgresql/
+
+# Fix permissions of config directory
+RUN chown -R postgres:postgres /etc/postgresql/
+
+# Fix permissions of run directory
+RUN mkdir -p -m 0755 /run/postgresql /run/postgresql/
+RUN chown -R postgres:postgres /run/postgresql
+RUN chmod g+s /run/postgresql
 
 # Expose the PostgreSQL port
 EXPOSE 5432
