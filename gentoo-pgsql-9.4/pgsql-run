@@ -4,7 +4,7 @@ set -e
 PG_HOME="/var/lib/postgresql"
 PG_DATA="${PG_HOME}/9.4/data"
 PG_BIN="/usr/lib/postgresql-9.4/bin/postgres"
-PG_CONFIG="/etc/postgresql-9.4/postgresql.conf"
+PG_CONF="/etc/postgresql-9.4/postgresql.conf"
 
 if [ -n "${DB_USER}" ]; then
   if [ -z "${DB_PASS}" ]; then
