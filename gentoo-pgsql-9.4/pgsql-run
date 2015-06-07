@@ -3,9 +3,29 @@ set -e
 
 PG_HOME="/var/lib/postgresql"
 PG_DATA="${PG_HOME}/9.4/data"
-PG_BIN="/usr/lib/postgresql-9.4/bin/postgres"
+PG_BINDIR="/usr/lib/postgresql-9.4/bin/"
+PG_BIN="${PG_BINDIR}/postgres"
 PG_CONF="/etc/postgresql-9.4/postgresql.conf"
 
+# Fix permissions of data directory
+chown -R postgres:postgres /var/lib/postgresql/
+chmod -R 700 /var/lib/postgresql/
+
+# Fix permissions of config directory
+chown -R postgres:postgres /etc/postgresql-9.4/
+
+# Fix permissions of run directory
+mkdir -p -m 0755 /run/postgresql /run/postgresql/
+chown -R postgres:postgres /run/postgresql
+chmod g+s /run/postgresql
+
+# Initialize database directory if necessary
+if [ ! -d ${PG_DATA} ]; then
+  echo "Initializing database..."
+  sudo -u postgres ${PG_BINDIR}/initdb --pgdata="${PG_DATA}" --username=postgres --encoding=unicode --auth=trust >/dev/null
+fi
+
+# Create the user
 if [ -n "${DB_USER}" ]; then
   if [ -z "${DB_PASS}" ]; then
     echo ""
@@ -20,6 +40,7 @@ if [ -n "${DB_USER}" ]; then
   fi
 fi
 
+# Create the database
 if [ -n "${DB_NAME}" ]; then
     echo "Creating database \"${DB_NAME}\"..."
     echo "CREATE DATABASE ${DB_NAME};" | \
@@ -32,5 +53,6 @@ if [ -n "${DB_NAME}" ]; then
     fi
 fi
 
+# Start the server
 echo "Starting the server..."
 exec sudo -u postgres ${PG_BIN} -D ${PG_DATA} -c config_file=${PG_CONF}

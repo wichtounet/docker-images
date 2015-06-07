@@ -4,27 +4,14 @@ MAINTAINER Baptiste Wicht
 
 # Install and configure PostgreSQL 9.4.2
 RUN emerge "=dev-db/postgresql-9.4.3"
-RUN yes | emerge --config "=dev-db/postgresql-9.4.3"
 
 # Allow remote connections
 RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql-9.4/pg_hba.conf
 RUN echo "listen_addresses='*'" >> /etc/postgresql-9.4/postgresql.conf
 
-# Create volumes
+# Create volumes for data
 VOLUME ["/var/lib/postgresql"]
 VOLUME ["/run/postgresql"]
-
-# Fix permissions of data directory
-RUN chown -R postgres:postgres /var/lib/postgresql/
-RUN chmod -R 700 /var/lib/postgresql/
-
-# Fix permissions of config directory
-RUN chown -R postgres:postgres /etc/postgresql-9.4/
-
-# Fix permissions of run directory
-RUN mkdir -p -m 0755 /run/postgresql /run/postgresql/
-RUN chown -R postgres:postgres /run/postgresql
-RUN chmod g+s /run/postgresql
 
 # Save some space
 RUN rm -rf /usr/portage/distfiles/*
