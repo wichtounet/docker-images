@@ -1,8 +1,7 @@
 #!/bin/bash
 set -e
 
-PG_HOME="/var/lib/postgresql"
-PG_DATA="${PG_HOME}/"
+PG_DATA="/var/lib/postgresql/"
 PG_BINDIR="/usr/lib/postgresql-9.4/bin/"
 PG_BIN="${PG_BINDIR}/postgres"
 PG_CONFDIR="/etc/postgresql-9.4/"
@@ -13,7 +12,7 @@ chown -R postgres:postgres /var/lib/postgresql/
 chmod -R 700 /var/lib/postgresql/
 
 # Fix permissions of config directory
-chown -R postgres:postgres /etc/postgresql-9.4/
+chown -R postgres:postgres ${PG_CONFDIR} 
 
 # Fix permissions of run directory
 mkdir -p -m 0755 /run/postgresql /run/postgresql/
@@ -33,6 +32,10 @@ rm -rf ${PG_DATA}/*.conf
 cp ${PG_CONFDIR}/pg_hba.conf ${PG_DATA}
 cp ${PG_CONFDIR}/pg_ident.conf ${PG_DATA}
 cp ${PG_CONFDIR}/postgresql.conf ${PG_DATA}
+
+# Fix permissions of data directory
+chown -R postgres:postgres ${PG_DATA}
+chmod -R 700 ${PG_DATA}
 
 # Create the user
 if [ -n "${DB_USER}" ]; then
