@@ -5,7 +5,8 @@ PG_HOME="/var/lib/postgresql"
 PG_DATA="${PG_HOME}/"
 PG_BINDIR="/usr/lib/postgresql-9.4/bin/"
 PG_BIN="${PG_BINDIR}/postgres"
-PG_CONF="/etc/postgresql-9.4/postgresql.conf"
+PG_CONFDIR="/etc/postgresql-9.4/"
+PG_CONF="${PG_CONFDIR}/postgresql.conf"
 
 # Fix permissions of data directory
 chown -R postgres:postgres /var/lib/postgresql/
@@ -27,6 +28,11 @@ fi
 
 # Remove config from data so that global config is used
 rm -rf ${PG_DATA}/*.conf
+
+# Import global config
+cp ${PG_CONFDIR}/pg_hba.conf ${PG_DATA}
+cp ${PG_CONFDIR}/pg_ident ${PG_DATA}
+cp ${PG_CONFDIR}/postgresql ${PG_DATA}
 
 # Create the user
 if [ -n "${DB_USER}" ]; then
