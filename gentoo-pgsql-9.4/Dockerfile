@@ -4,6 +4,7 @@ MAINTAINER Baptiste Wicht
 
 # Install and configure PostgreSQL 9.4.2
 RUN emerge "=dev-db/postgresql-9.4.3"
+RUN yes | emerge --config "=dev-db/postgresql-9.4.3"
 
 # Allow remote connections
 RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql-9.4/pg_hba.conf
