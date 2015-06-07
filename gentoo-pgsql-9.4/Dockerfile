@@ -10,6 +10,10 @@ RUN yes | emerge --config "=dev-db/postgresql-9.4.3"
 RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql-9.4/pg_hba.conf
 RUN echo "listen_addresses='*'" >> /etc/postgresql-9.4/postgresql.conf
 
+# Create volumes
+VOLUME ["/var/lib/postgresql"]
+VOLUME ["/run/postgresql"]
+
 # Fix permissions of data directory
 RUN chown -R postgres:postgres /var/lib/postgresql/
 RUN chmod -R 700 /var/lib/postgresql/
@@ -22,15 +26,15 @@ RUN mkdir -p -m 0755 /run/postgresql /run/postgresql/
 RUN chown -R postgres:postgres /run/postgresql
 RUN chmod g+s /run/postgresql
 
-# Expose the PostgreSQL port
-EXPOSE 5432
-
 # Save some space
 RUN rm -rf /usr/portage/distfiles/*
 
 # Add the run-script
 ADD pgsql-run /pgsql-run
 RUN chmod 755 /pgsql-run
+
+# Expose the PostgreSQL port
+EXPOSE 5432
 
 # Run postgres directly
 CMD /pgsql-run
