@@ -24,11 +24,17 @@ RUN mkdir -p /usr/portage/{distfiles,metadata,packages}
 RUN chown -R portage:portage /usr/portage
 RUN echo "masters = gentoo" > /usr/portage/metadata/layout.conf
 
+# Sync portage
+RUN emerge-webrsync -q
+
+# Update the environment
+RUN env-update
+
 # Install sudo
 RUN emerge app-admin/sudo
 
-# Sync portage
+# Sync portage again on build
 ONBUILD RUN emerge-webrsync -q
 
-# Update the environment
+# Update the environment again on build
 ONBUILD RUN env-update
