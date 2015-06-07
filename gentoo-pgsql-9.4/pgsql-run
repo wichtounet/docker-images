@@ -2,7 +2,7 @@
 set -e
 
 PG_HOME="/var/lib/postgresql"
-PG_DATA="${PG_HOME}/9.4/data"
+PG_DATA="${PG_HOME}/"
 PG_BINDIR="/usr/lib/postgresql-9.4/bin/"
 PG_BIN="${PG_BINDIR}/postgres"
 PG_CONF="/etc/postgresql-9.4/postgresql.conf"
@@ -24,6 +24,9 @@ if [ ! -d ${PG_DATA} ]; then
   echo "Initializing database..."
   sudo -u postgres ${PG_BINDIR}/initdb --pgdata="${PG_DATA}" --username=postgres --encoding=unicode --auth=trust >/dev/null
 fi
+
+# Remove config from data so that global config is used
+rm -rf ${PG_DATA}/*.conf
 
 # Create the user
 if [ -n "${DB_USER}" ]; then
