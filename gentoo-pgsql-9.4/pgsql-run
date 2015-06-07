@@ -26,7 +26,7 @@ if [ ! -f ${PG_DATA}/PG_VERSION ]; then
 fi
 
 # Remove config from data so that global config is used
-#rm -rf ${PG_DATA}/*.conf
+rm -rf ${PG_DATA}/*.conf
 
 # Create the user
 if [ -n "${DB_USER}" ]; then
