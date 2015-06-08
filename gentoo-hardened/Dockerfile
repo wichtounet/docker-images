@@ -30,9 +30,6 @@ RUN emerge-webrsync -q
 # Update the environment
 RUN env-update
 
-# Install sudo
-RUN emerge app-admin/sudo
-
 # Sync portage again on build
 ONBUILD RUN emerge-webrsync -q
 
