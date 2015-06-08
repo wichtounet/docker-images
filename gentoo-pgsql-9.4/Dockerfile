@@ -2,20 +2,15 @@ FROM gentoo-hardened
 
 MAINTAINER Baptiste Wicht
 
-# Setup the portage directory and permissions
-RUN mkdir -p /usr/portage/{distfiles,metadata,packages}
-RUN chown -R portage:portage /usr/portage
-RUN echo "masters = gentoo" > /usr/portage/metadata/layout.conf
-
-# Sync portage
-RUN emerge-webrsync -q
-
-# Update the environment
-RUN env-update
-
-# Install and configure PostgreSQL 9.4.2
-RUN emerge "=dev-db/postgresql-9.4.3"
-RUN yes | emerge --config "=dev-db/postgresql-9.4.3"
+# Install and configre Postgresql
+RUN mkdir -p /usr/portage/{distfiles,metadata,packages}; \
+    chown -R portage:portage /usr/portage; \
+    echo "masters = gentoo" > /usr/portage/metadata/layout.conf ; \
+    emerge-webrsync -q ; \
+    env-update ; \
+    emerge "=dev-db/postgresql-9.4.3" ; \
+    yes | emerge --config "=dev-db/postgresql-9.4.3"; \
+    rm -rf /usr/portage/ ;
 
 # Allow remote connections
 RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql-9.4/pg_hba.conf
@@ -24,9 +19,6 @@ RUN echo "listen_addresses='*'" >> /etc/postgresql-9.4/postgresql.conf
 # Create volumes for data
 VOLUME ["/var/lib/postgresql"]
 VOLUME ["/run/postgresql"]
-
-# Save some space
-RUN rm -rf /usr/portage/distfiles/*
 
 # Add the run-script
 ADD pgsql-run /pgsql-run
