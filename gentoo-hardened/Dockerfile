@@ -18,6 +18,3 @@ RUN ln -s /etc/init.d/net.eth0 /run/openrc/started/net.eth0
 
 # Set the timezone
 RUN echo 'Europe/Zurich' > /etc/timezone
-
-# Update the environment
-RUN env-update

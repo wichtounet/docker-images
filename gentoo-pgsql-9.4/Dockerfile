@@ -10,6 +10,9 @@ RUN echo "masters = gentoo" > /usr/portage/metadata/layout.conf
 # Sync portage
 RUN emerge-webrsync -q
 
+# Update the environment
+RUN env-update
+
 # Install and configure PostgreSQL 9.4.2
 RUN emerge "=dev-db/postgresql-9.4.3"
 RUN yes | emerge --config "=dev-db/postgresql-9.4.3"
