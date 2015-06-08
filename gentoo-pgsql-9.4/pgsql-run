@@ -22,7 +22,7 @@ chmod g+s /run/postgresql
 # Initialize database directory if necessary
 if [ ! -f ${PG_DATA}/PG_VERSION ]; then
   echo "Initializing database..."
-  sudo -u postgres ${PG_BINDIR}/initdb --pgdata="${PG_DATA}" --username=postgres --encoding=unicode --auth=trust >/dev/null
+  su - postgres -c "${PG_BINDIR}/initdb --pgdata=${PG_DATA} --username=postgres --encoding=unicode --auth=trust >/dev/null"
 fi
 
 # Remove config from data so that global config is used
@@ -48,7 +48,7 @@ if [ -n "${DB_USER}" ]; then
   else
     echo "Creating user \"${DB_USER}\"..."
     echo "CREATE ROLE ${DB_USER} with LOGIN CREATEDB PASSWORD '${DB_PASS}';" |
-      sudo -u postgres ${PG_BIN} --single -D ${PG_DATA} -c config_file=${PG_CONF} >/dev/null
+      su - postgres -c "${PG_BIN} --single -D ${PG_DATA} -c config_file=${PG_CONF} >/dev/null"
   fi
 fi
 
@@ -56,15 +56,15 @@ fi
 if [ -n "${DB_NAME}" ]; then
     echo "Creating database \"${DB_NAME}\"..."
     echo "CREATE DATABASE ${DB_NAME};" | \
-      sudo -u postgres ${PG_BIN} --single -D ${PG_DATA} -c config_file=${PG_CONF} >/dev/null
+      su - postgres -c "${PG_BIN} --single -D ${PG_DATA} -c config_file=${PG_CONF} >/dev/null"
 
     if [ -n "${DB_USER}" ]; then
       echo "Granting access to database \"${DB_NAME}\" for user \"${DB_USER}\"..."
       echo "GRANT ALL PRIVILEGES ON DATABASE ${DB_NAME} to ${DB_USER};" |
-        sudo -u postgres ${PG_BIN} --single -D ${PG_DATA} -c config_file=${PG_CONF} >/dev/null
+        su - postgres -c "${PG_BIN} --single -D ${PG_DATA} -c config_file=${PG_CONF} >/dev/null"
     fi
 fi
 
 # Start the server
 echo "Starting the server..."
-exec sudo -u postgres ${PG_BIN} -D ${PG_DATA} -c config_file=${PG_CONF}
+exec su - postgres -c "${PG_BIN} -D ${PG_DATA} -c config_file=${PG_CONF}"
