@@ -18,3 +18,6 @@ RUN ln -s /etc/init.d/net.eth0 /run/openrc/started/net.eth0
 
 # Set the timezone
 RUN echo 'Europe/Zurich' > /etc/timezone
+
+# Set the locale
+RUN echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen
