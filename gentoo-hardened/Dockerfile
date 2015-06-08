@@ -19,19 +19,5 @@ RUN ln -s /etc/init.d/net.eth0 /run/openrc/started/net.eth0
 # Set the timezone
 RUN echo 'Europe/Zurich' > /etc/timezone
 
-# Setup the portage directory and permissions
-RUN mkdir -p /usr/portage/{distfiles,metadata,packages}
-RUN chown -R portage:portage /usr/portage
-RUN echo "masters = gentoo" > /usr/portage/metadata/layout.conf
-
-# Sync portage
-RUN emerge-webrsync -q
-
 # Update the environment
 RUN env-update
-
-# Sync portage again on build
-ONBUILD RUN emerge-webrsync -q
-
-# Update the environment again on build
-ONBUILD RUN env-update

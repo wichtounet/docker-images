@@ -2,6 +2,14 @@ FROM gentoo-hardened
 
 MAINTAINER Baptiste Wicht
 
+# Setup the portage directory and permissions
+RUN mkdir -p /usr/portage/{distfiles,metadata,packages}
+RUN chown -R portage:portage /usr/portage
+RUN echo "masters = gentoo" > /usr/portage/metadata/layout.conf
+
+# Sync portage
+RUN emerge-webrsync -q
+
 # Install and configure PostgreSQL 9.4.2
 RUN emerge "=dev-db/postgresql-9.4.3"
 RUN yes | emerge --config "=dev-db/postgresql-9.4.3"
