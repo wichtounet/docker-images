@@ -16,7 +16,7 @@ RUN ln -s /etc/init.d/net.lo /run/openrc/started/net.lo
 RUN ln -s /etc/init.d/net.lo /etc/init.d/net.eth0
 RUN ln -s /etc/init.d/net.eth0 /run/openrc/started/net.eth0
 
-# By default, UTC system
+# Set the timezone
 RUN echo 'Europe/Zurich' > /etc/timezone
 
 # Setup the portage directory and permissions
