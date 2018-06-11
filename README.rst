@@ -1,6 +1,8 @@
 docker-images
 +++++++++++++
 
+**Note: These images are deprecated and unlikely to get updatd in the future**
+
 Dockerfiles for some docker images I'm using: 
 
 * gentoo-hardened: Contains a stage3 hardened without multilib Gentoo system. (No portage tree). 
